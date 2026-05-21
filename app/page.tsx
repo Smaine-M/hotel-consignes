@@ -21,6 +21,7 @@ export default function Home() {
   const [description, setDescription] = useState('')
   const [department, setDepartment] = useState('Réception')
   const [priority, setPriority] = useState('normale')
+  const [showCompletedTasks, setShowCompletedTasks] = useState(false)
 
   useEffect(() => {
     checkUser()
@@ -383,43 +384,60 @@ setProfile(data)
         </section>
 
         <section className="border rounded-xl p-6 shadow">
-          <h2 className="text-xl font-bold mb-4">Tâches effectuées</h2>
+  <div className="flex justify-between items-center mb-4">
+    <h2 className="text-xl font-bold">Tâches effectuées</h2>
 
-          <div className="grid gap-4">
-            {completedTasks.map((task) => (
-              <div
-                key={task.id}
-                className="border rounded-xl p-4 shadow-sm bg-gray-50"
-              >
-                <h3 className="text-lg font-semibold">
-                  Chambre {task.room_number}
-                </h3>
+    <button
+      onClick={() => setShowCompletedTasks(!showCompletedTasks)}
+      className="border px-3 py-2 rounded-lg text-sm"
+    >
+      {showCompletedTasks ? 'Masquer' : 'Afficher'}
+    </button>
+  </div>
 
-                <p className="font-medium">{task.title}</p>
+  {showCompletedTasks ? (
+    <div className="grid gap-4">
+      {completedTasks.map((task) => (
+        <div
+          key={task.id}
+          className="border rounded-xl p-4 shadow-sm bg-gray-50"
+        >
+          <h3 className="text-lg font-semibold">
+            Chambre {task.room_number}
+          </h3>
 
-                {task.description && (
-                  <p className="text-gray-600">{task.description}</p>
-                )}
+          <p className="font-medium">{task.title}</p>
 
-                <p className="text-sm text-gray-500">
-                  Service : {task.department}
-                </p>
+          {task.description && (
+            <p className="text-gray-600">{task.description}</p>
+          )}
 
-                <p className="text-sm text-gray-500">
-                  Priorité : {task.priority}
-                </p>
+          <p className="text-sm text-gray-500">
+            Service : {task.department}
+          </p>
 
-                <p className="text-sm text-gray-400 mt-2">
-                  Créée par {task.created_by_name || 'Utilisateur'} le {formatParisDate(task.created_at)}
-                </p>
+          <p className="text-sm text-gray-500">
+            Priorité : {task.priority}
+          </p>
 
-                <p className="text-sm text-green-700">
-                  Effectuée par {task.completed_by_name || 'Utilisateur'} le {formatParisDate(task.completed_at)}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
+          <p className="text-sm text-gray-400 mt-2">
+            Créée par {task.created_by_name || 'Utilisateur'} le{' '}
+            {formatParisDate(task.created_at)}
+          </p>
+
+          <p className="text-sm text-green-700">
+            Effectuée par {task.completed_by_name || 'Utilisateur'} le{' '}
+            {formatParisDate(task.completed_at)}
+          </p>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p className="text-gray-500">
+      Les tâches effectuées sont masquées.
+    </p>
+  )}
+</section>
       </div>
     </main>
   )
