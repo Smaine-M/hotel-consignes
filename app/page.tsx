@@ -42,7 +42,8 @@ export default function Home() {
       .single()
 
     if (!error) {
-      setProfile(data)
+      console.log('PROFILE CHARGÉ :', data)
+setProfile(data)
     }
   }
 
@@ -257,17 +258,18 @@ export default function Home() {
         <h1 className="text-3xl font-bold">Consignes Hôtel</h1>
 
         <div className="flex items-center gap-4">
-          <p className="font-medium">
-            {profile?.first_name} {profile?.last_name}
-          </p>
+  <span className="font-medium">
+    {profile?.first_name} {profile?.last_name}
+    {profile?.role && ` — ${profile.role}`}
+  </span>
 
-          <button
-            onClick={logout}
-            className="border px-4 py-2 rounded-lg"
-          >
-            Déconnexion
-          </button>
-        </div>
+  <button
+    onClick={logout}
+    className="border px-4 py-2 rounded-lg"
+  >
+    Déconnexion
+  </button>
+</div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
